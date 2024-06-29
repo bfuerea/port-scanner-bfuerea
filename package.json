@@ -7,7 +7,7 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": ["port", "scanner", "network"],
-    "author": "Your Name",
-    "license": "ISC"
+    "author": "Bogdan Fuerea",
+    "license": "MIT"
   }
   

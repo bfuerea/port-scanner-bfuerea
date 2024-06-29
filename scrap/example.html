@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Port Scanner</title>
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <script>
+        const resultsDiv = document.getElementById("results");
+
+        async function scanPortsAndDisplay() {
+            const response = await fetch('/scan'); // Fetch from the server
+            const results = await response.json();
+
+            resultsDiv.innerHTML = "<table><tr><th>IP Address</th><th>Port</th><th>Open</th></tr></table>";
+            const table = resultsDiv.querySelector("table");
+
+            for (const result of results) {
+                const row = table.insertRow();
+                row.insertCell().textContent = result['IP Address'];
+                row.insertCell().textContent = result['Port'];
+                row.insertCell().textContent = result['Open'] ? "Yes" : "No";
+            }
+        }
+
+        scanPortsAndDisplay(); // Start the scan
+    </script>
+</head>
+<body>
+    <h2>Port Scanner</h2>
+    <div id="results"></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Port Scanner</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+</head>
+
+<body>
+
+    <h2>Port Scanner</h2>
+    <div id="results"></div>
+
+    <script>
+        const ipAddress = "188.241.90.11";
+        const ports = [22, 80, 88, 443, 2022, 3000, 5000, 5001, 6690, 8080, 8081, 8888, 9900, 9901, 27017, 27018, 27019, 27107];
+        const resultsDiv = document.getElementById("results");
+
+        async function checkPort(port) {
+            const url = `https://api.viewdns.info/portscan/?host=${ipAddress}&port=${port}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.response.portstatus === "open";
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function scanPorts() {
+            resultsDiv.innerHTML = "<table><tr><th>IP Address</th><th>Port</th><th>Open</th></tr></table>";
+            const table = resultsDiv.querySelector("table");
+
+            for (const port of ports) {
+                const isOpen = await checkPort(port);
+                const row = table.insertRow();
+                row.insertCell().textContent = ipAddress;
+                row.insertCell().textContent = port;
+                row.insertCell().textContent = isOpen ? "Yes" : "No";
+            }
+        }
+
+        scanPorts(); 
+    </script>
+
+</body>
+
+</html>
